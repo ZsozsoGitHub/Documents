@@ -1,0 +1,30 @@
+run MySQL: 
+	mysql -u root -p
+
+show all users:
+	select user from mysql.user;
+
+check port:
+	SHOW VARIABLES WHERE Variable_name = 'port';
+============================================================================================================
+SELECT
+------
+The SELECT statement is used to pull information from a table. 
+The general form of the statement is: 
+
+	SELECT what_to_select
+	FROM which_table
+	WHERE conditions_to_satisfy;
+
+what_to_select 		indicates what you want to see. This can be a list of columns, or * to indicate “all columns.” 
+which_table 		indicates the table from which you want to retrieve data. The WHERE clause is optional. If it is present, 
+conditions_to_satisfy 	specifies one or more conditions that rows must satisfy to qualify for retrieval. 
+
+
+============================================================================================================
+============================================================================================================
+============================================================================================================
+============================================================================================================
+============================================================================================================
+============================================================================================================
+============================================================================================================

@@ -1,0 +1,207 @@
+===================
+=What are sockets?=
+===================
+Sockets are the end-point of a two-way communication link. An endpoint is a combination of IP address and the port number.
+
+For Client-Server communication, sockets are to be configured at the two ends to initiate a connection, listen for incoming messages and then send the responses at both ends thereby establishing a bidirectional communication.
+
+    Sockets allow communication between processes that lie on the same machine, or on different machines working in diverse environment and even across different continents.
+
+==============================================
+=How do you create a socket object in Python?=
+==============================================
+To create/initialize a socket, we use the socket.socket() method defined in the Python’s socket module. Its syntax is as follows.
+
+sock_obj = socket.socket( socket_family, socket_type, protocol=0)
+
+Where,
+
+    socket_family: Defines the family of protocols used as the transport mechanism. It can have either of the two values.
+        Either AF_UNIX, or
+               AF_INET (IP version 4 or IPv4).
+    socket_type: Defines the types of communication between the two end-points. It can have following values.
+        SOCK_STREAM (for connection-oriented protocols e.g. TCP), or
+        SOCK_DGRAM (for connectionless protocols e.g. UDP).
+    protocol: We typically leave this field or set this field to zero.
+
++-----------------------------------------------------------------+
+|import socket   #for sockets					  |
+|								  |
+|#Instantiate an AF_INET, STREAM socket (TCP)			  |
+|sock_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)	  |
+|								  |
+|print ('Socket Initialized')					  |
++-----------------------------------------------------------------+
+So this is how you can create a socket object. But what if the above examples fail to instantiate the socket. How would you troubleshoot the error?
+
+You need to wrap the above code in Python’s try and except block. With the help of Python exception handling mechanism, you can trace the cause of the error.
+
++-------------------------------------------------------------------------------------------------------------------------------+
+|#Managing errors in python socket programming											|
+| 																|
+|import socket   #for sockets													|
+|import sys  #for exit														|
+| 																|
+|try:																|
+|    #create an AF_INET, STREAM socket (TCP)											|
+|    sock_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)								|
+|except socket.error as err_msg:												|
+|    print ('Unable to instantiate socket. Error code: ' + str(err_msg[0]) + ' , Error message : ' + err_msg[1])		|
+|    sys.exit();														|
+| 																|
+|print ('Socket Initialized')													|
++-------------------------------------------------------------------------------------------------------------------------------+
+
+In the subsequent section, we will explain the functions available in the Socket library to create a client/server program.
+
+
+========================================================================
+=How many types of socket methods available in Python’s socket library?=
+========================================================================
+
+We can classify the socket methods in the following three categories used for Python socket programming.
+
+    Server Socket Methods,
+    Client Socket Methods, and
+    General Socket Methods.
+
+What are the methods available for server socket?
+
+Server Socket Methods.
+----------------------
+
+    sock_object.bind(address):
+        This method binds the socket to address (hostname, port number pair)
+    sock_object.listen(backlog):
+        This method is used to listen to the connections associated with the socket.
+        The backlog parameter indicates the maximum number of queued connections.
+        Maximum value can go up to 5 and minimum should be at least zero.
+    sock_object.accept():
+        This function returns (conn, address) pair where ‘conn’ is new socket object used to send and receive data on the communication channel and ‘address’ is the IP address tied to the socket on the another end of the channel.
+        Execution of accept() method returns a socket object that is different from the socket object created using socket.socket().
+        This new socket object is dedicatedly used to manage the communication with the particular client with which accept happened.
+        This mechanism also helps Server to maintain the connection with n number of clients simultaneously.
+
+What are the methods available for client socket?
+
+Client Socket Methods.
+----------------------
+
+    sock_object.connect():
+        This method is used to connect the client to host and port and initiate the connection towards the server.
+
+What are the general socket methods available in Python?
+
+General Socket Methods.
+-----------------------
+
+    sock_object.recv():
+        Use this method to receive messages at endpoints when the value of the protocol parameter is TCP.
+    sock_object.send():
+        Apply this method to send messages from endpoints in case the protocol is TCP.
+    sock_object.recvfrom():
+        Call this method to receive messages at endpoints if the protocol used is UDP.
+    sock_object.sendto():
+        Invoke this method to send messages from endpoints if the protocol parameter is UDP.
+    sock_object.gethostname():
+        This method returns the hostname.
+    sock_object.close():
+        This method is used to close the socket. The remote endpoint will not receive data from this side.
+
+So far, we’ve listed all the socket tools that the ‘socket‘ library provides for Python socket programming. 
+Next, we’ll show you the socket function call workflow to achieve the client-server communication. 
+Please refer the below snapshot, it illustrates each and every socket call required to establish a channel 
+between client and server.
+
+========================================================
+=Sample code for Client-Server communication in Python.=
+========================================================
+
+The client-server program will have the following two Python modules.
+
+    Python-Server.py and
+    Python-Client.py.
+
+Let’s check out the server code first. For your note, we’ve tested this code on Python 3.
+
+
+Python-Server.py
+----------------
+
+This server module will both send and receive data to/from the client.
+
+    In Python-Server.py, we have created a server socket which remains in the wait state till it receives a request from the client.
+    Whenever a client gets connected, the server accepts that connection.
+        The client will then start passing messages to the server.
+        And the server will process those messages and send the response back to the client.
+    In the below code, we are also asking the user to input his response that he wants to pass to the client.
+
+import socket
+import time
+
+
+def Main():
+                host = "127.0.0.1"
+                port = 5001
+                
+                mySocket = socket.socket()
+                mySocket.bind((host,port))
+                
+                mySocket.listen(1)
+                conn, addr = mySocket.accept()
+                print ("Connection from: " + str(addr))
+                while True:
+                                                data = conn.recv(1024).decode()
+                                                if not data:
+                                                                                break
+                                                print ("from connected  user: " + str(data))
+                                                
+                                                data = str(data).upper()
+                                                print ("Received from User: " + str(data))
+
+                                                data = input(" ? ")
+                                                conn.send(data.encode())
+                                                
+                conn.close()
+                
+if __name__ == '__main__':
+                Main()
+
+Python-Client.py
+-----------------
+
+On the client side, we create a socket and connect to the server using the supplied host and port values.
+
+    Client code has a while loop for exchanging messages. The loop keeps printing all the data obtained from the server.
+    After this, there is a call to the input function asking for the client response. The response is then forwarded to the server.
+    The user may also enter ‘q’ to stop the communication at any point in time.
+
+import socket
+
+def Main():
+		host = '127.0.0.1'
+		port = 5001
+		
+		mySocket = socket.socket()
+		mySocket.connect((host,port))
+		
+		message = input(" ? ")
+		
+		while message != 'q':
+				mySocket.send(message.encode())
+				data = mySocket.recv(1024).decode()
+				
+				print ('Received from server: ' + data)
+				
+				message = input(" ? ")
+				
+		mySocket.close()
+
+if __name__ == '__main__':
+	Main()
+
+How to run the Client-Server program?
+
+You’ll need to run both the modules from the separate command windows, or you can run them in two different IDLE instances.
+
+First of all, you would execute the server module followed by the client. We’ve given the full execution summary of the client-server program in the below table.

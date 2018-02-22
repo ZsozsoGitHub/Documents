@@ -1,0 +1,1 @@
+Python-oktató:	http://harp.pythonanywhere.com/python_doc/tutorial/index.html

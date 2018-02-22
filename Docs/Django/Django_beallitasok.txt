@@ -1,0 +1,63 @@
+statikus fajlokhoz vezeto eleresi utvonal: 
+	STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+===============================================================================================================
+debug:
+ ha a DEBUG=True akkor ALLOWED_HOSTS=[] kell legyen
+===============================================================================================================
+adatbazis letrehozasa egy bloghoz:
+	python manage.py migrate
+*fontos hogy abban a konyvtarba legyel amelyik tartalmazza a manage.py file-t
+===============================================================================================================
+Configure MySQL for Django
+--------------------------
+Download and install MySQL.
+Once MySQL is installed, proceed through the configuration wizard. Check Include Bin Directory in Windows PATH box.
+When prompted, set a password for the MySQL root account.
+Once the installation wizard is done, open a command window and log in to MySQL with the root account: 
+	mysql -uroot -p 
+		(you’ll be prompted for the password).
+After logging in, run the following commands to create a database, create a user for your Django project, 
+and grant the user database access. 
+
+#create the database
+CREATE DATABASE [dbname] CHARACTER SET utf8;
+
+#create user
+CREATE USER 'django_user'@'localhost' IDENTIFIED BY 'thepassword';
+
+#give user permissions to db (probably not a great idea to GRANT ALL unless you really have to)
+# (replace django.* with [mydatabasename].*)
+GRANT ALL ON django.* TO 'django_user'@'localhost' IDENTIFIED BY 'thepassword';
+GRANT ALL PRIVILAGES ON *.* to 'django_user'@'localhost';
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': ('djangodb'),   # name is the database name. Not the absolute path
+        'USER': 'django_user',
+        'PASSWORD': 'djangopass',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+        # 'PORT': '10061'
+    }
+}
+
+===============================================================================================================
+Alkalmazas letrhozasa utan meg kell mondanunk a Djangonak hogy hasznalja azt:
+INSTALLED_APPS = [
+    ....,
+    'alkalmazas_nev'
+]
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================

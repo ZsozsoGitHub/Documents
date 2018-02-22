@@ -1,0 +1,61 @@
++--------------------------+
+| Python 3.6.4 for Windows |
++--------------------------+
+URL : https://www.python.org/downloads/release/python-364/
+[INFO] api-ms-win-crt-runtime-l1-1-0.dll missing -> The api-ms-win-crt-runtime-l1-1-0.dll file is including in Microsoft Visual C++ Redistributable for 
+Visual Studio 2015. If there’s no this software, or your existing one is missing, incompatible or corrupted, you could probably then encounter this problem. 
+Download Visual C++ Redistributable for Visual Studio 2015 from Microsoft directly: 
+*File name: vc_redist.x64
+URL: https://www.microsoft.com/en-in/download/details.aspx?id=48145
+
+
++----------------------+
+| VS Code on Windows   |
++----------------------+
+URL: https://code.visualstudio.com/
+*File name: VSCodeSetup-x64-1.20.1
+[INFO]NET Framework 4.5.2 or higher is required for VS Code. If you are using Windows 7, make sure you have at 
+least .NET Framework 4.5.2 installed: 
+*File name: NDP452-KB2901954-Web
+URL: https://www.microsoft.com/en-us/download/details.aspx?id=42643
+[TIP] Tip: Setup will optionally add Visual Studio Code to your %PATH%, so from the console you can type 'code .' 
+to open VS Code on that folder. You will need to restart your console after the installation for the change to the %PATH% environmental 
+variable to take effect.
+
+VC Code Top Extensions: URL: https://marketplace.visualstudio.com/search?term=auto%20import&target=VSCode&category=All%20categories&sortBy=Relevance
+-----------------------
+ vscode-icons		: https://marketplace.visualstudio.com/items?itemName=robertohuertasm.vscode-icons
+ C/C++			: https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+ Python			: https://marketplace.visualstudio.com/items?itemName=ms-python.python
+ Path Intellisense	: https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense
+ MagicPython		: https://marketplace.visualstudio.com/items?itemName=magicstack.MagicPython
+ Auto Import		: https://marketplace.visualstudio.com/items?itemName=steoates.autoimport
+
+
+
++-----------------------------+
+| Git --fast-version-contro   |
++-----------------------------+
+URL: https://git-scm.com/
+*File name: Git-2.16.1.4-64-bit
+
++-----------------------------+
+| MySQL for Windows           |
++-----------------------------+
+URL: https://dev.mysql.com/downloads/installer/
+*File name: mysql-installer-web-community-5.7.21.0
+*Need for django
+*Config in django:
+	DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': os.path.join(BASE_DIR, 'db.mysql'),
+        'USER': 'user',
+        'PASSWORD': 'pass',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+    		}
+		    }
+
+
+ 
